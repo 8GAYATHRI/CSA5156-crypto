@@ -1,0 +1,45 @@
+#include <stdio.h>
+#include <ctype.h>
+
+// Function to calculate the modular multiplicative inverse of a modulo m
+int modInverse(int a, int m) {
+    a = a % m;
+    for (int x = 1; x < m; x++) {
+        if ((a * x) % m == 1) {
+            return x;
+        }
+    }
+    return 1;
+}
+
+// Function to decrypt affine cipher given ciphertext, and assumed values of a and b
+void decryptAffine(char *ciphertext, int a, int b) {
+    int a_inv = modInverse(a, 26);
+    for (int i = 0; ciphertext[i] != '\0'; i++) {
+        if (isalpha(ciphertext[i])) {
+            int y = toupper(ciphertext[i]) - 'A';
+            int x = (a_inv * (y - b + 26)) % 26;
+            printf("%c", x + 'A');
+        } else {
+            printf("%c", ciphertext[i]);
+        }
+    }
+    printf("\n");
+}
+
+int main() {
+    char ciphertext[] = "YOUR CIPHERTEXT HERE";
+    int a, b;
+
+    // Based on 'B' -> 'E' and 'U' -> 'T' mappings, deduced values for a and b
+    // Assuming 'B' is the most frequent and 'U' is the second most frequent in the ciphertext
+    // Frequency analysis and assumptions lead to these values
+    a = 7; // Assumed value based on 'B' -> 'E'
+    b = 19; // Assumed value based on 'U' -> 'T'
+
+    decryptAffine(ciphertext, a, b);
+    return 0;
+}
+OUTPUT:
+Decrypted Message:
+53ççå305))6*;4826)4ç.)4ç);806*;48å8╢60))85;;]8*;:ç*8å83(88)5*å;46(;88*96*?;8)*ç(;485);5*å2:*ç(;4956*2(5*ù4)8╢8*;4069285);)6å8)4çç;1(ç9;48081;8:8ç1;48å85;4)485å528806*81(ç9;48;(88;4(ç?34;48)4ç;161;:188;ç?
