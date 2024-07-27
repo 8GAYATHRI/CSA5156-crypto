@@ -1,0 +1,106 @@
+
+#include <stdio.h>
+#include <string.h>
+
+// Function to encrypt the message using Caesar cipher
+void encrypt(char *message, int key) {
+    int i;
+    char ch;
+
+    for(i = 0; message[i] != '\0'; ++i) {
+        ch = message[i];
+
+        if(ch >= 'a' && ch <= 'z') {
+            ch = ch + key;
+
+            if(ch > 'z') {
+                ch = ch - 'z' + 'a' - 1;
+            }
+
+            message[i] = ch;
+        }
+        else if(ch >= 'A' && ch <= 'Z') {
+            ch = ch + key;
+
+            if(ch > 'Z') {
+                ch = ch - 'Z' + 'A' - 1;
+            }
+
+            message[i] = ch;
+        }
+    }
+
+    printf("Encrypted message: %s\n", message);
+}
+
+// Function to decrypt the message using Caesar cipher
+void decrypt(char *message, int key) {
+    int i;
+    char ch;
+
+    for(i = 0; message[i] != '\0'; ++i) {
+        ch = message[i];
+
+        if(ch >= 'a' && ch <= 'z') {
+            ch = ch - key;
+
+            if(ch < 'a') {
+                ch = ch + 'z' - 'a' + 1;
+            }
+
+            message[i] = ch;
+        }
+        else if(ch >= 'A' && ch <= 'Z') {
+            ch = ch - key;
+
+            if(ch < 'A') {
+                ch = ch + 'Z' - 'A' + 1;
+            }
+
+            message[i] = ch;
+        }
+    }
+
+    printf("Decrypted message: %s\n", message);
+}
+
+int main() {
+    char message[100];
+    int key, choice;
+
+    printf("Enter a message to encrypt: ");
+    fgets(message, sizeof(message), stdin);
+
+    printf("Enter the encryption key (1-25): ");
+    scanf("%d", &key);
+
+    // Clear input buffer
+    while(getchar() != '\n');
+
+    printf("Choose operation:\n");
+    printf("1. Encrypt\n");
+    printf("2. Decrypt\n");
+    scanf("%d", &choice);
+
+    switch(choice) {
+        case 1:
+            encrypt(message, key);
+            break;
+        case 2:
+            decrypt(message, key);
+            break;
+        default:
+            printf("Invalid choice!\n");
+    }
+
+    return 0;
+}
+
+output:
+Enter a message to encrypt: you are good girl in the class
+Enter the encryption key (1-25): 7
+Choose operation:
+1. Encrypt
+2. Decrypt
+1
+Encrypted message: Çvb hyl nvvk npys pu aol jshzz
